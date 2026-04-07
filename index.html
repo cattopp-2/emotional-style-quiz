@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>What Is Your Emotional Style at Work? | The People Mentor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --teal: #2a9d8f;
+      --teal-dark: #1f7a6e;
+      --teal-light: #e8f5f3;
+      --navy: #1a2b3c;
+      --charcoal: #2d3748;
+      --mid-grey: #6b7280;
+      --light-grey: #f7f8fa;
+      --white: #ffffff;
+      --border: #e2e8f0;
+      --font-heading: 'Playfair Display', Georgia, serif;
+      --font-body: 'Lato', sans-serif;
+      --radius: 10px;
+      --shadow: 0 4px 24px rgba(26, 43, 60, 0.08);
+      --shadow-hover: 0 8px 32px rgba(26, 43, 60, 0.14);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--light-grey);
+      color: var(--charcoal);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* QUIZ WRAPPER */
+    .quiz-wrapper {
+      max-width: 720px;
+      margin: 48px auto;
+      padding: 0 20px 60px;
+    }
+
+    /* HEADER */
+    .quiz-header {
+      text-align: center;
+      padding: 48px 40px 40px;
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 28px;
+      border-top: 4px solid var(--teal);
+    }
+
+    .quiz-header .eyebrow {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 14px;
+    }
+
+    .quiz-header h1 {
+      font-family: var(--font-heading);
+      font-size: clamp(24px, 4vw, 34px);
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.25;
+      margin-bottom: 16px;
+    }
+
+    .quiz-header p {
+      font-size: 16px;
+      color: var(--mid-grey);
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* PROGRESS BAR */
+    .progress-container {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px 28px;
+      margin-bottom: 24px;
+      display: none;
+    }
+
+    .progress-container.visible {
+      display: block;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--mid-grey);
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .progress-track {
+      height: 6px;
+      background: var(--border);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--teal), var(--teal-dark));
+      border-radius: 99px;
+      transition: width 0.4s ease;
+      width: 0%;
+    }
+
+    /* CARD */
+    .quiz-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 40px;
+      display: none;
+      animation: fadeSlideIn 0.35s ease;
+    }
+
+    .quiz-card.active {
+      display: block;
+    }
+
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* QUESTION */
+    .question-number {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 12px;
+    }
+
+    .question-text {
+      font-family: var(--font-heading);
+      font-size: clamp(18px, 2.5vw, 22px);
+      font-weight: 600;
+      color: var(--navy);
+      line-height: 1.4;
+      margin-bottom: 28px;
+    }
+
+    /* OPTIONS */
+    .options-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .option-btn {
+      width: 100%;
+      text-align: left;
+      background: var(--white);
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      font-family: var(--font-body);
+      font-size: 15px;
+      color: var(--charcoal);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      line-height: 1.5;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .option-btn:hover {
+      border-color: var(--teal);
+      background: var(--teal-light);
+      color: var(--navy);
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-1px);
+    }
+
+    .option-btn.selected {
+      border-color: var(--teal);
+      background: var(--teal-light);
+      color: var(--navy);
+    }
+
+    .option-letter {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      min-width: 26px;
+      border-radius: 50%;
+      background: var(--border);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--mid-grey);
+      transition: all 0.2s ease;
+    }
+
+    .option-btn:hover .option-letter,
+    .option-btn.selected .option-letter {
+      background: var(--teal);
+      color: var(--white);
+    }
+
+    /* NAV BUTTONS */
+    .nav-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 32px;
+      gap: 12px;
+    }
+
+    .btn {
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 700;
+      padding: 14px 28px;
+      border-radius: var(--radius);
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      letter-spacing: 0.3px;
+    }
+
+    .btn-primary {
+      background: var(--teal);
+      color: var(--white);
+    }
+
+    .btn-primary:hover {
+      background: var(--teal-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(42, 157, 143, 0.3);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--mid-grey);
+      border: 2px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--teal);
+      color: var(--teal);
+    }
+
+    /* CAPTURE SCREEN */
+    #capture-screen .quiz-card {
+      text-align: center;
+    }
+
+    #capture-screen .quiz-card h2 {
+      font-family: var(--font-heading);
+      font-size: clamp(22px, 3vw, 28px);
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    #capture-screen .quiz-card p {
+      font-size: 15px;
+      color: var(--mid-grey);
+      margin-bottom: 28px;
+      max-width: 460px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .capture-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      max-width: 420px;
+      margin: 0 auto;
+      text-align: left;
+    }
+
+    .capture-form label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--charcoal);
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .capture-form input {
+      width: 100%;
+      padding: 13px 16px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      font-family: var(--font-body);
+      font-size: 15px;
+      color: var(--charcoal);
+      transition: border-color 0.2s ease;
+      outline: none;
+    }
+
+    .capture-form input:focus {
+      border-color: var(--teal);
+    }
+
+    .capture-form .btn-primary {
+      width: 100%;
+      padding: 16px;
+      font-size: 16px;
+      margin-top: 6px;
+    }
+
+    .privacy-note {
+      font-size: 12px;
+      color: var(--mid-grey);
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    /* RESULTS */
+    .result-card {
+      display: none;
+    }
+
+    .result-card.active {
+      display: block;
+      animation: fadeSlideIn 0.4s ease;
+    }
+
+    .result-hero {
+      background: linear-gradient(135deg, var(--navy) 0%, #2a4a6b 100%);
+      color: var(--white);
+      border-radius: var(--radius);
+      padding: 44px 40px;
+      margin-bottom: 24px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .result-hero .result-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 12px;
+    }
+
+    .result-hero h2 {
+      font-family: var(--font-heading);
+      font-size: clamp(28px, 5vw, 40px);
+      font-weight: 700;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+
+    .result-hero .result-tagline {
+      font-size: 17px;
+      opacity: 0.85;
+      font-style: italic;
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .result-body {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 40px;
+      margin-bottom: 24px;
+    }
+
+    .result-body p {
+      font-size: 16px;
+      color: var(--charcoal);
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    .result-body p:last-child {
+      margin-bottom: 0;
+    }
+
+    .cost-section {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 36px 40px;
+      margin-bottom: 24px;
+    }
+
+    .cost-section h3 {
+      font-family: var(--font-heading);
+      font-size: 20px;
+      color: var(--navy);
+      margin-bottom: 20px;
+    }
+
+    .cost-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .cost-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 15px;
+      color: var(--charcoal);
+      line-height: 1.6;
+    }
+
+    .cost-list li::before {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      min-width: 8px;
+      border-radius: 50%;
+      background: var(--teal);
+      margin-top: 8px;
+    }
+
+    .good-news-section {
+      background: var(--teal-light);
+      border-left: 4px solid var(--teal);
+      border-radius: var(--radius);
+      padding: 32px 36px;
+      margin-bottom: 24px;
+    }
+
+    .good-news-section h3 {
+      font-family: var(--font-heading);
+      font-size: 20px;
+      color: var(--navy);
+      margin-bottom: 14px;
+    }
+
+    .good-news-section p {
+      font-size: 15px;
+      color: var(--charcoal);
+      line-height: 1.8;
+      margin-bottom: 12px;
+    }
+
+    .good-news-section p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* CTA BLOCK */
+    .cta-block {
+      background: linear-gradient(135deg, var(--navy) 0%, #2a4a6b 100%);
+      border-radius: var(--radius);
+      padding: 44px 40px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .cta-block h3 {
+      font-family: var(--font-heading);
+      font-size: clamp(20px, 3vw, 26px);
+      color: var(--white);
+      margin-bottom: 14px;
+    }
+
+    .cta-block p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.8);
+      max-width: 500px;
+      margin: 0 auto 20px;
+      line-height: 1.7;
+    }
+
+    .testimonial-quote {
+      background: rgba(255,255,255,0.08);
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin: 24px 0;
+      font-style: italic;
+      font-size: 15px;
+      color: rgba(255,255,255,0.9);
+      line-height: 1.7;
+      text-align: left;
+    }
+
+    .testimonial-quote cite {
+      display: block;
+      font-style: normal;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--teal);
+      margin-top: 10px;
+    }
+
+    .cta-price {
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+      margin-top: 12px;
+    }
+
+    .btn-cta {
+      display: inline-block;
+      background: var(--teal);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 700;
+      padding: 18px 36px;
+      border-radius: var(--radius);
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      letter-spacing: 0.3px;
+    }
+
+    .btn-cta:hover {
+      background: var(--teal-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(42, 157, 143, 0.4);
+    }
+
+    .retake-link {
+      display: block;
+      text-align: center;
+      margin-top: 24px;
+      font-size: 13px;
+      color: var(--mid-grey);
+      cursor: pointer;
+      text-decoration: underline;
+      text-decoration-color: transparent;
+      transition: color 0.2s ease;
+    }
+
+    .retake-link:hover {
+      color: var(--teal);
+    }
+
+    /* START SCREEN */
+    #start-screen {
+      display: block;
+    }
+
+    #start-screen .quiz-card {
+      display: block;
+      text-align: center;
+    }
+
+    #start-screen h2 {
+      font-family: var(--font-heading);
+      font-size: clamp(20px, 3vw, 26px);
+      color: var(--navy);
+      margin-bottom: 14px;
+    }
+
+    #start-screen p {
+      font-size: 15px;
+      color: var(--mid-grey);
+      max-width: 480px;
+      margin: 0 auto 28px;
+      line-height: 1.7;
+    }
+
+    .time-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--teal-light);
+      color: var(--teal-dark);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 99px;
+      margin-bottom: 24px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 600px) {
+      .quiz-card,
+      .result-body,
+      .cost-section,
+      .cta-block,
+      .result-hero {
+        padding: 28px 22px;
+      }
+
+      .good-news-section {
+        padding: 24px 22px;
+      }
+
+      .nav-row {
+        flex-direction: column-reverse;
+      }
+
+      .btn {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="quiz-wrapper">
+
+  <!-- QUIZ HEADER -->
+  <div class="quiz-header">
+    <p class="eyebrow">Free Quiz</p>
+    <h1>What Is Your Emotional Style at Work?</h1>
+    <p>Answer 8 questions to find out how emotions are affecting your career and what to do about it.</p>
+  </div>
+
+  <!-- PROGRESS BAR -->
+  <div class="progress-container" id="progress-container">
+    <div class="progress-label">
+      <span id="progress-text">Question 1 of 8</span>
+      <span id="progress-pct">0%</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+  </div>
+
+  <!-- START SCREEN -->
+  <div id="start-screen">
+    <div class="quiz-card">
+      <h2>Ready to find out your emotional style?</h2>
+      <p>This short quiz will help you understand how emotions are showing up for you at work, and what that means for your conversations, your relationships, and your career.</p>
+      <div class="time-badge">Takes around 2 minutes</div>
+      <br />
+      <button class="btn btn-primary" onclick="startQuiz()">Start the Quiz</button>
+    </div>
+  </div>
+
+  <!-- QUESTIONS -->
+  <div id="questions-screen" style="display:none;">
+
+    <div class="quiz-card" id="q1">
+      <p class="question-number">Question 1 of 8</p>
+      <p class="question-text">When a conversation at work starts to get tense, your first instinct is to:</p>
+      <ul class="options-list">
+        <li><button class="option-btn" onclick="selectAnswer(1,'A',this)"><span class="option-letter">A</span>React immediately. You say what you feel before you have had a chance to think.</button></li>
+        <li><button class="option-btn" onclick="selectAnswer(1,'B',this)"><span class="option-letter">B</span>Back off. Suddenly it does not feel worth the hassle.</button></li>
+        <li><button class="option-btn" onclick="selectAnswer(1,'C',this)"><span class="option-letter">C</span>Go quiet. You stay calm on the outside but you are churning inside.</button></li>
+        <li><button class="option-btn" onclick="selectAnswer(1,'D',this)"><span class="option-letter">D</span>Focus on keeping the other person calm, even at the expense of your own position.</button></li>
+      </ul>
+      <div class="nav-row">
+        <span></span>
+        <button class="btn btn-primary" id="next-1" onclick="nextQuestion(1)" disabled>Next</button>
+      </div>
+    </div>
+
+    <div class="quiz-card" id="q2">
+      <p class="question-number">Question 2 of 8</p>
+      <p class="question-text">Think about the last time you were really frustrated with someone at work. What happened?</p>
+      <ul class="options-list">
+        <li><button class="option-btn" onclick="selectAnswer(2,'A',this)"><span class="option-letter">A</span>It came out, either in the moment or not long after.</button></li>
+        <li><button class="option-btn" onclick="selectAnswer(2,'B',this)"><span class="option-letter">B</span>You said nothing and it is still unresolved.</button></li>
+        <li><button class="option-btn" onclick="selectAnswer(2,'C',this)"><span class="option-letter">C</span>You dealt with it professionally but it is still sitting with you.</button></li>
+        <li><button class="option-btn" onclick="selectAnswer(2,'D',this)"><span class="option-letter">D</span>You vented to someone else rather than the person involved.</button></li>
+      </ul>
+      <div class="nav-row">
+        <button class="btn btn-secondary" onclick="prevQuestion(2)">Back</button>
+        <button class="btn btn-primary" id="next-2" onclick="nextQuestion(2)" disabled>Next</button>
+      </div>
+    </div>
+
+    <div class="quiz-card" id="q3">
+      <p class="question-number">Question 3 of 8</p>
+      <p class="question-text">When you need to raise something uncomfortable with someone at work, you:</p>
+      <ul class="options-list">
+        <li><button class="option-btn" onclick="selectAnswer(3,'A',this)"><span class="option-letter">A</span>Just say it, sometimes too bluntly.</button></li>
+        <li><button class="option-btn" onclick="selectAnswer(3,'B',this)"><span class="option-letter">B</span>Put it off until it becomes a bigger problem.</button></li>
+        <li><button class="option-btn" onclick="selectAnswer(3,'C',this)"><span class="option-letter">C</span>Plan what you will say but still find yourself hesitating.</button></li>
+        <li><button class="option-btn" onclick="selectAnswer(3,'D',this)"><span class="option-letter">D</span>Soften it so much the real message gets lost.</button></li>
+      </ul>
+      <div class="nav-row">
+        <button class="btn btn-secondary" onclick="prevQuestion(3)">Back</button>
+        <button class="btn btn-primary" id="next-3" onclick="nextQuestion(3)" disabled>Next</button>
+      </div>
+    </div>
+
+    <div class="quiz-card" id="q4">
+      <p class="question-number">Question 4 of 8</p>
+      <p class="question-text">When someone at work reacts emotionally (tears, raised voice, defensiveness), you:</p>
+      <ul class="options-list">
+        <li><button class="option-btn" onclick="selectAnswer(4,'A',this)"><span class="option-letter">A</span>Find yourself getting heated too.</button></li>
+        <li><button class="option-btn" onclick="selectAnswer(4,'B',this)"><span class="option-letter">B</span>Shut down and want to end the conversation as quickly as possible.</button></li>
+        <li><button class="option-btn" onclick="selectAnswer(4,'C',this)"><span class="option-letter">C</span>Stay composed outwardly but feel rattled for the rest of the day.</button></li>
+        <li><button class="option-btn" onclick="selectAnswer(4,'D',this)"><span class="option-letter">D</span>Immediately try to smooth things over, even if it means backing down.</button></li>
+      </ul>
+      <div class="nav-row">
+        <button class="btn btn-secondary" onclick="prevQuestion(4)">Back</button>
+        <button class="btn btn-primary" id="next-4" onclick="nextQuestion(4)" disabled>Next</button>
+      </div>
+    </div>
+
+    <div class="quiz-card" id="q5">
+      <p class="question-number">Question 5 of 8</p>
+      <p class="question-text">How do you tend to handle stress or pressure at work?</p>
+      <ul class="options-list">
+        <li><button class="option-btn" onclick="selectAnswer(5,'A',this)"><span class="option-letter">A</span>It shows. People around you know when you are not okay.</button></li>
+        <li><button class="option-btn" onclick="selectAnswer(5,'B',this)"><span class="option-letter">B</span>You keep it in, but it builds until something gives.</button></li>
+        <li><button class="option-btn" onclick="selectAnswer(5,'C',this)"><span class="option-letter">C</span>You manage it privately but carry it alone.</button></li>
+        <li><button class="option-btn" onclick="selectAnswer(5,'D',this)"><span class="option-letter">D</span>You hold it together but absorb everyone else's stress on top of your own.</button></li>
+      </ul>
+      <div class="nav-row">
+        <button class="btn btn-secondary" onclick="prevQuestion(5)">Back</button>
+        <button class="btn btn-primary" id="next-5" onclick="nextQuestion(5)" disabled>Next</button>
+      </div>
+    </div>
+
+    <div class="quiz-card" id="q6">
+      <p class="question-number">Question 6 of 8</p>
+      <p class="question-text">After a difficult conversation at work, you typically:</p>
+      <ul class="options-list">
+        <li><button class="option-btn" onclick="selectAnswer(6,'A',this)"><span class="option-letter">A</span>Move on quickly. It is done and you do not dwell.</button></li>
+        <li><button class="option-btn" onclick="selectAnswer(6,'B',this)"><span class="option-letter">B</span>Replay it for hours wondering if you should have said something.</button></li>
+        <li><button class="option-btn" onclick="selectAnswer(6,'C',this)"><span class="option-letter">C</span>Feel relieved it is over but worry nothing will actually change.</button></li>
+        <li><button class="option-btn" onclick="selectAnswer(6,'D',this)"><span class="option-letter">D</span>Feel guilty and find yourself over-compensating afterwards.</button></li>
+      </ul>
+      <div class="nav-row">
+        <button class="btn btn-secondary" onclick="prevQuestion(6)">Back</button>
+        <button class="btn btn-primary" id="next-6" onclick="nextQuestion(6)" disabled>Next</button>
+      </div>
+    </div>
+
+    <div class="quiz-card" id="q7">
+      <p class="question-number">Question 7 of 8</p>
+      <p class="question-text">Which of these sounds most like you?</p>
+      <ul class="options-list">
+        <li><button class="option-btn" onclick="selectAnswer(7,'A',this)"><span class="option-letter">A</span>"I have said things in the heat of the moment that I wish I could take back."</button></li>
+        <li><button class="option-btn" onclick="selectAnswer(7,'B',this)"><span class="option-letter">B</span>"I know what I want to say. I just cannot bring myself to say it."</button></li>
+        <li><button class="option-btn" onclick="selectAnswer(7,'C',this)"><span class="option-letter">C</span>"People probably think I am fine, but I am not always fine."</button></li>
+        <li><button class="option-btn" onclick="selectAnswer(7,'D',this)"><span class="option-letter">D</span>"I spend so much energy managing other people's feelings that I am exhausted."</button></li>
+      </ul>
+      <div class="nav-row">
+        <button class="btn btn-secondary" onclick="prevQuestion(7)">Back</button>
+        <button class="btn btn-primary" id="next-7" onclick="nextQuestion(7)" disabled>Next</button>
+      </div>
+    </div>
+
+    <div class="quiz-card" id="q8">
+      <p class="question-number">Question 8 of 8</p>
+      <p class="question-text">When you imagine having a conversation you have been putting off, you feel:</p>
+      <ul class="options-list">
+        <li><button class="option-btn" onclick="selectAnswer(8,'A',this)"><span class="option-letter">A</span>Agitated. You just want to get it over with.</button></li>
+        <li><button class="option-btn" onclick="selectAnswer(8,'B',this)"><span class="option-letter">B</span>Anxious. You are dreading their reaction.</button></li>
+        <li><button class="option-btn" onclick="selectAnswer(8,'C',this)"><span class="option-letter">C</span>Resigned. You will do it, but you are not sure it will make any difference.</button></li>
+        <li><button class="option-btn" onclick="selectAnswer(8,'D',this)"><span class="option-letter">D</span>Responsible. If it goes badly, you will feel like it is your fault.</button></li>
+      </ul>
+      <div class="nav-row">
+        <button class="btn btn-secondary" onclick="prevQuestion(8)">Back</button>
+        <button class="btn btn-primary" id="next-8" onclick="goToCapture()" disabled>See My Result</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- EMAIL CAPTURE -->
+  <div id="capture-screen" style="display:none;">
+    <div class="quiz-card active">
+      <h2>Your result is ready.</h2>
+      <p>Enter your name and email below and we will send your result straight to your inbox, along with some practical next steps.</p>
+      <div class="capture-form">
+        <div>
+          <label for="first-name">First name</label>
+          <input type="text" id="first-name" placeholder="Your first name" />
+        </div>
+        <div>
+          <label for="email">Email address</label>
+          <input type="email" id="email" placeholder="Your email address" />
+        </div>
+        <button class="btn btn-primary" onclick="showResult()">Show My Result</button>
+      </div>
+      <p class="privacy-note">No spam. One-click unsubscribe at any time.</p>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results-screen" style="display:none;">
+
+    <!-- REACTOR -->
+    <div class="result-card" id="result-A">
+      <div class="result-hero">
+        <p class="result-label">Your Result</p>
+        <h2>You Are a Reactor</h2>
+        <p class="result-tagline">You feel things fast and it shows.</p>
+      </div>
+      <div class="result-body">
+        <p>Your honesty is refreshing. Your passion is real. But when emotions lead the conversation, the message gets lost and so does your credibility.</p>
+        <p>You know that feeling. Something is said, you react, and within seconds the conversation has gone somewhere you did not intend. Later, you replay it. Why did I say it like that? Why could I not just hold it together?</p>
+        <p>The frustrating part? You are not wrong about the issue. You just lost control of the delivery.</p>
+      </div>
+      <div class="cost-section">
+        <h3>What this is costing you</h3>
+        <ul class="cost-list">
+          <li>Relationships that feel permanently dented after heated moments</li>
+          <li>A reputation that does not reflect how capable you actually are</li>
+          <li>Conversations that escalate when they should resolve</li>
+          <li>The mental replay at 11pm of everything you wish you had said differently</li>
+        </ul>
+      </div>
+      <div class="good-news-section">
+        <h3>The good news</h3>
+        <p>The gap between feeling something and responding to it is a skill. And like any skill, it can be learned.</p>
+        <p>You do not need to become someone who bottles everything up. You need strategies that let you stay in the conversation, fully present, clear-headed, and in control, without suppressing who you are.</p>
+      </div>
+      <div class="cta-block">
+        <h3>Your next step</h3>
+        <p>Mastering Emotional Conversations is a practical online course that gives you exactly that. You will learn how to recognise your emotional triggers before they take over, how to stay composed in the conversations that matter most, and how to get your message across clearly without the aftermath you are used to dreading.</p>
+        <div class="testimonial-quote">
+          "She helped me see the situation from a different perspective, and her calm and reassuring approach helped me take the emotion out of the situation."
+          <cite>Michelle, Copywriter</cite>
+        </div>
+        <a class="btn-cta" href="https://6c35-hello.systeme.io/emotions-quiz-reactor">Get the course now for just £27</a>
+        <p class="cta-price">Immediate access. Learn at your own pace.</p>
+      </div>
+      <span class="retake-link" onclick="retakeQuiz()">Retake the quiz</span>
+    </div>
+
+    <!-- AVOIDER -->
+    <div class="result-card" id="result-B">
+      <div class="result-hero">
+        <p class="result-label">Your Result</p>
+        <h2>You Are an Avoider</h2>
+        <p class="result-tagline">You know exactly what needs to be said. You just cannot quite bring yourself to say it.</p>
+      </div>
+      <div class="result-body">
+        <p>So you wait. You tell yourself it is not the right moment. You rehearse it in your head, decide against it, and carry on while the thing you have not said sits quietly in the background, getting heavier.</p>
+        <p>Meanwhile, the situation does not resolve itself. It just gets more complicated. And with every conversation you do not have, it feels a little harder to imagine having it.</p>
+      </div>
+      <div class="cost-section">
+        <h3>What this is costing you</h3>
+        <ul class="cost-list">
+          <li>Opportunities that pass because you did not speak up</li>
+          <li>Relationships where things are left permanently unsaid</li>
+          <li>Confidence that quietly erodes every time you back away</li>
+          <li>The exhausting mental load of carrying things you have not dealt with</li>
+        </ul>
+      </div>
+      <div class="good-news-section">
+        <h3>The good news</h3>
+        <p>Avoidance is not weakness. It is usually a sign that you care about getting it right. You are not afraid of the conversation itself. You are afraid of losing control of it.</p>
+        <p>The right tools change that completely. When you know how to prepare, how to structure what you want to say, and how to manage your emotions in the room, those conversations stop feeling like something to survive and start feeling like something you can handle.</p>
+      </div>
+      <div class="cta-block">
+        <h3>Your next step</h3>
+        <p>Mastering Emotional Conversations was built for exactly this. You will learn how to prepare for difficult conversations so you go in clear and confident, how to express what you need without it escalating, and how to stop the avoidance cycle that has been holding you back.</p>
+        <div class="testimonial-quote">
+          "She helped me see the situation from a different perspective, and her calm and reassuring approach helped me take the emotion out of the situation."
+          <cite>Michelle, Copywriter</cite>
+        </div>
+        <a class="btn-cta" href="https://6c35-hello.systeme.io/emotions-quiz-avoider">Get the course now for just £27</a>
+        <p class="cta-price">Immediate access. Learn at your own pace.</p>
+      </div>
+      <span class="retake-link" onclick="retakeQuiz()">Retake the quiz</span>
+    </div>
+
+    <!-- SUPPRESSOR -->
+    <div class="result-card" id="result-C">
+      <div class="result-hero">
+        <p class="result-label">Your Result</p>
+        <h2>You Are a Suppressor</h2>
+        <p class="result-tagline">You hold it together. Always.</p>
+      </div>
+      <div class="result-body">
+        <p>From the outside, you look composed, professional, and unflappable. Inside, it is a different story. You are processing, replaying, worrying. You are just doing it privately, where nobody can see.</p>
+        <p>The problem is not that you cannot manage your emotions. It is that you manage them so well on the surface that nothing ever actually gets resolved. Things get buried. Feelings go unexpressed. And you carry it all, quietly, alone.</p>
+      </div>
+      <div class="cost-section">
+        <h3>What this is costing you</h3>
+        <ul class="cost-list">
+          <li>Situations that never fully resolve because you never fully address them</li>
+          <li>People who misread your composure as indifference or as agreement</li>
+          <li>A growing sense that nobody really knows how you feel</li>
+          <li>INSERT FOURTH BULLET POINT HERE</li>
+        </ul>
+      </div>
+      <div class="good-news-section">
+        <h3>The good news</h3>
+        <p>Composure is a genuine strength. The goal is not to express more for the sake of it. It is to learn when and how to let the right things out, in the right way, so that conversations actually move forward without you losing the professionalism you have worked hard to build.</p>
+        <p>You do not need to become more emotional. You need to become more expressive, clearly, deliberately, and without losing the composure that defines you.</p>
+      </div>
+      <div class="cta-block">
+        <h3>Your next step</h3>
+        <p>Mastering Emotional Conversations will help you do exactly that. You will learn how to communicate what you are actually thinking and feeling in a way that feels safe and considered, how to stop internalising everything, and how to have the conversations you have been quietly carrying without losing your composure in the process.</p>
+        <div class="testimonial-quote">
+          "She helped me see the situation from a different perspective, and her calm and reassuring approach helped me take the emotion out of the situation."
+          <cite>Michelle, Copywriter</cite>
+        </div>
+        <a class="btn-cta" href="https://6c35-hello.systeme.io/emotions-quiz-suppressor">Get the course now for just £27</a>
+        <p class="cta-price">Immediate access. Learn at your own pace.</p>
+      </div>
+      <span class="retake-link" onclick="retakeQuiz()">Retake the quiz</span>
+    </div>
+
+    <!-- ABSORBER -->
+    <div class="result-card" id="result-D">
+      <div class="result-hero">
+        <p class="result-label">Your Result</p>
+        <h2>You Are an Absorber</h2>
+        <p class="result-tagline">You are the person people feel safe around. And it is exhausting.</p>
+      </div>
+      <div class="result-body">
+        <p>You are empathetic, considered, and attuned to how others are feeling. In any difficult conversation, your first instinct is to make sure the other person is okay, even when you are the one who needed something from the conversation in the first place.</p>
+        <p>You hold space beautifully. The problem is, you hold so much of everyone else's that there is very little space left for you.</p>
+      </div>
+      <div class="cost-section">
+        <h3>What this is costing you</h3>
+        <ul class="cost-list">
+          <li>Conversations where you walk away without getting what you needed</li>
+          <li>The habit of over-explaining, over-apologising, and over-accommodating</li>
+          <li>Emotional exhaustion from carrying other people's feelings alongside your own</li>
+          <li>A growing sense that your needs always come last</li>
+        </ul>
+      </div>
+      <div class="good-news-section">
+        <h3>The good news</h3>
+        <p>Your empathy is not the problem. It is one of your greatest professional assets. What is missing is the boundary between feeling with someone and being responsible for them.</p>
+        <p>When you learn to hold that line, everything changes. You can be warm and empathetic and clear about what you need. You can support others and get your point across. You do not have to choose.</p>
+      </div>
+      <div class="cta-block">
+        <h3>Your next step</h3>
+        <p>Mastering Emotional Conversations will help you find that balance. You will learn how to stay empathetic without absorbing, how to assert your needs without feeling guilty, and how to have the conversations where you need something without immediately making it about everyone else's comfort.</p>
+        <div class="testimonial-quote">
+          "She helped me see the situation from a different perspective, and her calm and reassuring approach helped me take the emotion out of the situation."
+          <cite>Michelle, Copywriter</cite>
+        </div>
+        <a class="btn-cta" href="https://6c35-hello.systeme.io/emotions-quiz-absorber">Get the course now for just £27</a>
+        <p class="cta-price">Immediate access. Learn at your own pace.</p>
+      </div>
+      <span class="retake-link" onclick="retakeQuiz()">Retake the quiz</span>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  const answers = {};
+  let currentQ = 1;
+  const totalQ = 8;
+
+  function startQuiz() {
+    document.getElementById('start-screen').style.display = 'none';
+    document.getElementById('questions-screen').style.display = 'block';
+    document.getElementById('progress-container').classList.add('visible');
+    showQuestion(1);
+  }
+
+  function showQuestion(n) {
+    document.querySelectorAll('.quiz-card').forEach(c => c.classList.remove('active'));
+    const card = document.getElementById('q' + n);
+    if (card) card.classList.add('active');
+    updateProgress(n);
+
+    // Restore selected state if answer exists
+    if (answers[n]) {
+      const btns = card.querySelectorAll('.option-btn');
+      btns.forEach(btn => {
+        if (btn.textContent.trim().startsWith(answers[n])) {
+          btn.classList.add('selected');
+        }
+      });
+      document.getElementById('next-' + n).disabled = false;
+    }
+  }
+
+  function selectAnswer(q, letter, btn) {
+    answers[q] = letter;
+    const card = document.getElementById('q' + q);
+    card.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    document.getElementById('next-' + q).disabled = false;
+  }
+
+  function nextQuestion(current) {
+    if (!answers[current]) return;
+    currentQ = current + 1;
+    if (currentQ <= totalQ) {
+      showQuestion(currentQ);
+    }
+  }
+
+  function prevQuestion(current) {
+    currentQ = current - 1;
+    if (currentQ >= 1) {
+      showQuestion(currentQ);
+    }
+  }
+
+  function updateProgress(n) {
+    const pct = Math.round(((n - 1) / totalQ) * 100);
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-text').textContent = 'Question ' + n + ' of ' + totalQ;
+    document.getElementById('progress-pct').textContent = pct + '%';
+  }
+
+  function goToCapture() {
+    if (!answers[8]) return;
+    document.getElementById('questions-screen').style.display = 'none';
+    document.getElementById('progress-container').classList.remove('visible');
+    document.getElementById('capture-screen').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function showResult() {
+    const firstName = document.getElementById('first-name').value.trim();
+    const email = document.getElementById('email').value.trim();
+
+    if (!email) {
+      alert('Please enter your email address to see your result.');
+      return;
+    }
+
+    // Tally scores
+    const counts = { A: 0, B: 0, C: 0, D: 0 };
+    Object.values(answers).forEach(a => { if (counts[a] !== undefined) counts[a]++; });
+
+    const winner = Object.entries(counts).sort((x, y) => y[1] - x[1])[0][0];
+
+    document.getElementById('capture-screen').style.display = 'none';
+    document.getElementById('results-screen').style.display = 'block';
+    document.getElementById('result-' + winner).classList.add('active');
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // NOTE FOR DEVELOPER: 
+    // Connect firstName and email to your System.io form here.
+    // Tag the contact with their result type (winner variable = A, B, C or D).
+    // A = Reactor, B = Avoider, C = Suppressor, D = Absorber
+  }
+
+  function retakeQuiz() {
+    Object.keys(answers).forEach(k => delete answers[k]);
+    currentQ = 1;
+
+    document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+    document.querySelectorAll('[id^="next-"]').forEach(b => b.disabled = true);
+    document.querySelectorAll('.result-card').forEach(r => r.classList.remove('active'));
+
+    document.getElementById('results-screen').style.display = 'none';
+    document.getElementById('start-screen').style.display = 'block';
+    document.getElementById('capture-screen').style.display = 'none';
+    document.getElementById('first-name').value = '';
+    document.getElementById('email').value = '';
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>
