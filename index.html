@@ -650,8 +650,18 @@
       <h2>Ready to find out your emotional style?</h2>
       <p>This short quiz will help you understand how emotions are showing up for you at work, and what that means for your conversations, your relationships, and your career.</p>
       <div class="time-badge">Takes around 2 minutes</div>
-      <br />
-      <button class="btn btn-primary" onclick="startQuiz()">Start the Quiz</button>
+      <div class="capture-form" style="margin-top:24px;">
+        <div>
+          <label for="first-name">First name</label>
+          <input type="text" id="first-name" placeholder="Your first name" />
+        </div>
+        <div>
+          <label for="email">Email address</label>
+          <input type="email" id="email" placeholder="Your email address" />
+        </div>
+        <button class="btn btn-primary" onclick="startQuiz()">Start the Quiz</button>
+      </div>
+      <p class="privacy-note">No spam. One-click unsubscribe at any time.</p>
     </div>
   </div>
 
@@ -774,7 +784,7 @@
       </ul>
       <div class="nav-row">
         <button class="btn btn-secondary" onclick="prevQuestion(8)">Back</button>
-        <button class="btn btn-primary" id="next-8" onclick="goToCapture()" disabled>See My Result</button>
+        <button class="btn btn-primary" id="next-8" onclick="showResult()" disabled>See My Result</button>
       </div>
     </div>
 
@@ -966,6 +976,11 @@
   const totalQ = 8;
 
   function startQuiz() {
+    const email = document.getElementById('email').value.trim();
+    if (!email) {
+      alert('Please enter your email address to continue.');
+      return;
+    }
     document.getElementById('start-screen').style.display = 'none';
     document.getElementById('questions-screen').style.display = 'block';
     document.getElementById('progress-container').classList.add('visible');
@@ -1025,34 +1040,24 @@
     document.getElementById('questions-screen').style.display = 'none';
     document.getElementById('progress-container').classList.remove('visible');
     document.getElementById('capture-screen').style.display = 'block';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.getElementById('capture-screen').scrollIntoView({ behavior: 'smooth' });
   }
 
   function showResult() {
-    const firstName = document.getElementById('first-name').value.trim();
-    const email = document.getElementById('email').value.trim();
-
-    if (!email) {
-      alert('Please enter your email address to see your result.');
-      return;
-    }
-
     // Tally scores
     const counts = { A: 0, B: 0, C: 0, D: 0 };
     Object.values(answers).forEach(a => { if (counts[a] !== undefined) counts[a]++; });
 
     const winner = Object.entries(counts).sort((x, y) => y[1] - x[1])[0][0];
 
-    document.getElementById('capture-screen').style.display = 'none';
-    document.getElementById('results-screen').style.display = 'block';
-    document.getElementById('result-' + winner).classList.add('active');
+    const urls = {
+      A: 'https://6c35-hello.systeme.io/emotions-quiz-reactor',
+      B: 'https://6c35-hello.systeme.io/emotions-quiz-avoider',
+      C: 'https://6c35-hello.systeme.io/emotions-quiz-suppressor',
+      D: 'https://6c35-hello.systeme.io/emotions-quiz-absorber'
+    };
 
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    // NOTE FOR DEVELOPER: 
-    // Connect firstName and email to your System.io form here.
-    // Tag the contact with their result type (winner variable = A, B, C or D).
-    // A = Reactor, B = Avoider, C = Suppressor, D = Absorber
+    window.location.href = urls[winner];
   }
 
   function retakeQuiz() {
@@ -1064,8 +1069,8 @@
     document.querySelectorAll('.result-card').forEach(r => r.classList.remove('active'));
 
     document.getElementById('results-screen').style.display = 'none';
+    document.getElementById('questions-screen').style.display = 'none';
     document.getElementById('start-screen').style.display = 'block';
-    document.getElementById('capture-screen').style.display = 'none';
     document.getElementById('first-name').value = '';
     document.getElementById('email').value = '';
 
