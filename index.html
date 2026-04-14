@@ -1050,12 +1050,35 @@
 
     const winner = Object.entries(counts).sort((x, y) => y[1] - x[1])[0][0];
 
+    const resultNames = {
+      A: 'Reactor',
+      B: 'Avoider',
+      C: 'Suppressor',
+      D: 'Absorber'
+    };
+
     const urls = {
       A: 'https://6c35-hello.systeme.io/emotions-quiz-reactor',
       B: 'https://6c35-hello.systeme.io/emotions-quiz-avoider',
       C: 'https://6c35-hello.systeme.io/emotions-quiz-suppressor',
       D: 'https://6c35-hello.systeme.io/emotions-quiz-absorber'
     };
+
+    // Fire webhook
+    const emailEl = document.getElementById('email');
+    const firstNameEl = document.getElementById('first-name');
+    fetch('https://hook.eu2.make.com/osqwvpxxum1yf2j9iqnhjemln62wnwj1', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      keepalive: true,
+      body: JSON.stringify({
+        email: emailEl ? emailEl.value.trim() : '',
+        first_name: firstNameEl ? firstNameEl.value.trim() : '',
+        result: winner,
+        result_type: resultNames[winner],
+        answers: answers
+      })
+    });
 
     window.top.location.href = urls[winner];
   }
